@@ -39,6 +39,17 @@ app.use("/api/songs", songRoutes);
 app.use("/api/albums", albumRoutes);
 app.use("/api/stats", statRoutes);
 
+//error handler
+app.use((err, req, res, next) => {
+  res
+    .status(500)
+    .json({
+      message:
+        process.env.NODE_ENV === "production"
+          ? "Something went wrong"
+          : err.message,
+    });
+});
 app.listen(5000, () => {
   console.log(`Server is running on ${5000}`);
   connectDB();
